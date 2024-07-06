@@ -8,7 +8,7 @@ class BasicFunction{
     }
 
     async OpenPage(url){
-        await this.page.goto(url)
+        await this.page.goto(url, { timeout: 60000 })
     }
 }
 
