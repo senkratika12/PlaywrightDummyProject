@@ -9,14 +9,16 @@ module.exports = defineConfig({
   reporter: 'html',
   use: {
     trace: 'on-first-retry',
-    launchOptions: {
-      args: ['--disable-http2'],
-    },
   },
   projects: [
     {
       name: 'chromium',
-      use: { ...devices['Desktop Chrome'] },
+      use: { ...devices['Desktop Chrome'],
+      launchOptions: {
+        args: ['--disable-http2'],
+      },
+       },
+      
     },
     {
       name: 'firefox',
