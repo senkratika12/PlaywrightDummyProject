@@ -18,4 +18,6 @@ test('Searching For Hotel', async ({page})=>{
     await hotelbookingpage.selectTripType('India')
 
     await hotelbookingpage.selectPlaceForSearch('Jaipur')
+
+    await hotelbookingpage.confirmSearchHotel()
 })

@@ -17,10 +17,10 @@ test('Searching Flight ', async ({page})=>{
     await loginpage.closeLoginDialogue()
     await flightbookingpage.verifyUserOnHomePage()
 
-    await flightbookingpage.enterCityFromBookFlight('Jaipur')
-    await flightbookingpage.enterCityToBookFlight("Udaipur")
-    await flightbookingpage.selectTicketType('Business')
+    await flightbookingpage.enterCityFromBookFlight(testData.startLocation)
+    await flightbookingpage.enterCityToBookFlight(testData.destinationLocation)
+    await flightbookingpage.selectTicketType(testData.ticketClass)
 
-    await flightbookingpage.verifyDetails('Jaipur','Udaipur','Business')
+    await flightbookingpage.verifyDetails(testData.startLocation,testData.destinationLocation,testData.ticketClass)
     await flightbookingpage.searchFlight()
 })

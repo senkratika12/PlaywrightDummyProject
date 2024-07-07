@@ -77,17 +77,14 @@ class FlightBookingPage{
    async verifyDetails(startLocation, destination , ticketClass){
         if (startLocation){
             const startLocationText = await this.page.locator(this.forLocation).nth(0).textContent()
-            console.log(startLocationText)
             expect(startLocationText).toContain(startLocation)
         }
         if (destination){
             const destinationLocationText = await this.page.locator(this.forLocation).nth(1).textContent()
-            console.log(destinationLocationText)
             expect(destinationLocationText).toContain(destination)
         }
         if (ticketClass){
             const ticketClassText = await this.page.locator(this.checkTicketClass).nth(3).textContent()
-            console.log(ticketClassText)
             expect(ticketClassText).toContain(ticketClass.toLowerCase())
         }
     }

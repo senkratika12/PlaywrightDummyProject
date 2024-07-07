@@ -13,6 +13,8 @@ class HotelBookingPage{
 
         this.selectFromList = '//ul[@id="downshift-1-menu"]//li'
 
+        this.searchBtn = '//button[@data-testid="searchHotelBtn"]'
+
     }
 
     async selectHotelPage(){
@@ -37,6 +39,12 @@ class HotelBookingPage{
     async selectPlaceForSearch(city){
         await this.page.fill(this.inputField,city)
         await this.page.locator(this.selectFromList).nth(0).click()
+    }
+
+    async confirmSearchHotel(){
+        await this.page.locator(this.searchBtn).click()
+
+        await this.page.pause()
     }
 }
 
