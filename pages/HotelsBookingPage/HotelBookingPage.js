@@ -5,29 +5,29 @@ class HotelBookingPage{
     constructor(page){
         this.page = page
 
-        this.selectHotel = "//span[text()='Hotels']"
-        this.hotelPageHeader = '//h1[@class="HomePagestyles__HomePageTitle-sc-s8m7jv-2 bDwhYv"]'
-
-        this.countryType = '//input[@name="CountryType"]'
+        this.selectHotel = this.page.locator("//span[text()='Hotels']")
+        this.hotelPageHeader =this.page.locator('//h1[@class="HomePagestyles__HomePageTitle-sc-s8m7jv-2 bDwhYv"]'
+)
+        this.countryType = this.page.locator('//input[@name="CountryType"]')
         this.inputField= '//input[@class="HomePageAutosuggeststyles__SearchInputStyles-sc-1v6s32j-1 dPHRio"]'
 
-        this.selectFromList = '//ul[@id="downshift-1-menu"]//li'
+        this.selectFromList = this.page.locator('//ul[@id="downshift-1-menu"]//li')
 
-        this.searchBtn = '//button[@data-testid="searchHotelBtn"]'
+        this.searchBtn = this.page.locator('//button[@data-testid="searchHotelBtn"]')
 
     }
 
     async selectHotelPage(){
-        await this.page.locator(this.selectHotel).click()
+        await this.selectHotel.click()
     }
 
     async verifyHotelPageOpen(){
-        const hotelPageHeader = await this.page.locator(this.hotelPageHeader)
+        const hotelPageHeader = await this.hotelPageHeader
         await expect(hotelPageHeader).toBeVisible()
     }
 
     async selectTripType(country){
-        const tripType = await this.page.locator(this.countryType)
+        const tripType = await this.countryType
         if(country === 'India'){
             await tripType.nth(0).click()
         }
@@ -38,11 +38,11 @@ class HotelBookingPage{
 
     async selectPlaceForSearch(city){
         await this.page.fill(this.inputField,city)
-        await this.page.locator(this.selectFromList).nth(0).click()
+        await this.selectFromList.nth(0).click()
     }
 
     async confirmSearchHotel(){
-        await this.page.locator(this.searchBtn).click()
+        await this.searchBtn.click()
 
         await this.page.pause()
     }

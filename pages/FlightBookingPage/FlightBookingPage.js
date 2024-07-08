@@ -6,76 +6,68 @@ class FlightBookingPage{
 
         this.page = page
 
-        this.logo = '.dyqwmv'
-        this.flightHeader = '//div[@data-id="flt-srch-wdgt"]//h2'
-        this.fromField = "//span[text()='From']/following::p[text()='Enter city or airport']"
+        this.logo = this.page.locator('.dyqwmv')
+        this.flightHeader = this.page.locator('//div[@data-id="flt-srch-wdgt"]//h2')
+        this.fromField = this.page.locator("//span[text()='From']/following::p[text()='Enter city or airport']")
         this.fromInputField = "//span[text()='From']/following::input[1]"
-        this.toField = "//*[text()='Enter city or airport']"
+        this.toField = this.page.locator("//*[text()='Enter city or airport']")
         this.toInputField = "//span[text()='To']/following::input"
-        this.selectFromList = '//ul[@id="autoSuggest-list"]//li[1]'
-        this.ticketClass = '//span[text()="Travellers & Class"]'
-        this.economyClass = 'ul.sc-12foipm-45 > li:first-child'
-        this.premiumEconomyClass = 'ul.sc-12foipm-45 > li:nth-child(2)'
-        this.buisness = 'ul.sc-12foipm-45 >li:nth-child(3)'
-        this.firstClass = 'ul.sc-12foipm-45 > li:nth-child(4)'
-        this.confirmBtn = '//a[@class="sc-12foipm-64 jkgFUQ"]'
+        this.selectFromList = this.page.locator('//ul[@id="autoSuggest-list"]//li[1]')
+        this.ticketClass = this.page.locator('//span[text()="Travellers & Class"]')
+        this.economyClass = this.page.locator('ul.sc-12foipm-45 > li:first-child')
+        this.premiumEconomyClass = this.page.locator('ul.sc-12foipm-45 > li:nth-child(2)')
+        this.buisness = this.page.locator('ul.sc-12foipm-45 >li:nth-child(3)')
+        this.firstClass = this.page.locator('ul.sc-12foipm-45 > li:nth-child(4)')
+        this.confirmBtn = this.page.locator('//a[@class="sc-12foipm-64 jkgFUQ"]')
 
-        this.forLocation = '//div[@class="sc-12foipm-2 eTBlJr fswFld "]//p[1]'
-        this.checkTicketClass = '//p[@class="sc-12foipm-5 bwPbmr"]'
+        this.forLocation = this.page.locator('//div[@class="sc-12foipm-2 eTBlJr fswFld "]//p[1]')
+        this.checkTicketClass = this.page.locator('//p[@class="sc-12foipm-5 bwPbmr"]')
 
-        this.searchFlightBtn = '//span[@class="sc-12foipm-72 ezNmSh"]'
+        this.searchFlightBtn = this.page.locator('//span[@class="sc-12foipm-72 ezNmSh"]')
 
-        this.loader = '//*[@class="loaderWrapper appendBottom20"]'
-        this.loadingText = '//p[@class="heading appendBottom12"]'
+        this.loader = this.page.locator('//*[@class="loaderWrapper appendBottom20"]')
+        this.loadingText = this.page.locator('//p[@class="heading appendBottom12"]')
     }
 
     async verifyUserOnHomePage(){
-        const logoLocator = await this.page.locator(this.logo)
+        const logoLocator = await this.logo
         await expect(logoLocator).toBeVisible()
-        const flightHeadeText = await this.page.locator(this.flightHeader)
+        const flightHeadeText = await this.flightHeader
         await expect(flightHeadeText).toBeVisible()
     }
 
     async enterCityFromBookFlight(cityName){
-         const fromBookFlight = await this.page.locator(this.fromField).nth(0)
-         await  fromBookFlight.click()
-         await this.page.fill(this.fromInputField,cityName)
-         const firstOption = await this.page.locator(this.selectFromList)
-         await firstOption.click()
+        await this.fromField.nth(0).click()
+        await this.page.fill(this.fromInputField,cityName)
+        await this.selectFromList.click()
     }
 
     async enterCityToBookFlight(cityName){
         await this.page.fill(this.toInputField,cityName)
-        const firstOption = await this.page.locator(this.selectFromList)
-        await firstOption.click()
+        await this.selectFromList.click()
    }
 
    async selectTicketType(className){
-        const ticketClass = await this.page.locator(this.ticketClass)
-        await ticketClass.click()
-        const economyTicketClass= await this.page.locator(this.economyClass)
-        const buisnessTicketClass= await this.page.locator(this.buisness)
-
-        const premiumEconomyTicketClass= await this.page.locator(this.premiumEconomyClass)
-        const firstClassTicketClass= await this.page.locator(this.firstClass)
+        await this.ticketClass.click()
+        
         const ticketClassName = await className.toLowerCase()
         if(ticketClassName === 'economy'){
-            await economyTicketClass.click()
+            await this.economyClass.click()
         }
         if(ticketClassName === 'business'){
-            await buisnessTicketClass.click()
+            await this.buisness.click()
         }
         if(ticketClassName === 'premium economy'){
-            await premiumEconomyTicketClass.click()
+            await this.premiumEconomyClass.click()
         }
         if(ticketClassName === 'first class'){
-            await firstClassTicketClass.click()
+            await this.firstClass.click()
         }
-        await this.page.locator(this.confirmBtn).click()
+        await this.confirmBtn.click()
    }
 
    async validateDetails(index,locator,expectedText){
-        const contentText = await this.page.locator(locator).nth(index).textContent()
+        const contentText = await locator.nth(index).textContent()
         expect(contentText.toLowerCase()).toContain(expectedText.toLowerCase())
    }
 
@@ -92,14 +84,14 @@ class FlightBookingPage{
     }
 
     async searchFlight() {
-        await this.page.locator(this.searchFlightBtn).click()        
+        await this.searchFlightBtn.click()        
     }
 
     async verifyPageIsLoading(text){
-        const loadingPageText = await this.page.locator(this.loadingText).textContent()
+        const loadingPageText = await this.loadingText.textContent()
         expect(loadingPageText.toLowerCase()).toContain(text.toLowerCase())
         
-        const loader = await this.page.locator(this.loader)
+        const loader = await this.loader
         await  expect(loader).toBeVisible()
     }
 }
