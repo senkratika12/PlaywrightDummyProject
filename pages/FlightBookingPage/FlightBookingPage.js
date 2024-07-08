@@ -74,18 +74,20 @@ class FlightBookingPage{
         await this.page.locator(this.confirmBtn).click()
    }
 
+   async validateDetails(index,locator,expectedText){
+        const contentText = await this.page.locator(locator).nth(index).textContent()
+        expect(contentText.toLowerCase()).toContain(expectedText.toLowerCase())
+   }
+
    async verifyDetails(startLocation, destination , ticketClass){
         if (startLocation){
-            const startLocationText = await this.page.locator(this.forLocation).nth(0).textContent()
-            expect(startLocationText).toContain(startLocation)
+          this.validateDetails(0,this.forLocation,startLocation)
         }
         if (destination){
-            const destinationLocationText = await this.page.locator(this.forLocation).nth(1).textContent()
-            expect(destinationLocationText).toContain(destination)
+            this.validateDetails(1,this.forLocation,destination)
         }
         if (ticketClass){
-            const ticketClassText = await this.page.locator(this.checkTicketClass).nth(3).textContent()
-            expect(ticketClassText).toContain(ticketClass.toLowerCase())
+            this.validateDetails(3,this.checkTicketClass,ticketClass)
         }
     }
 
