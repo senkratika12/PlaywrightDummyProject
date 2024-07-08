@@ -1,4 +1,5 @@
 const { expect } = require("@playwright/test")
+const exp = require("constants")
 
 class FlightBookingPage{
 
@@ -72,15 +73,9 @@ class FlightBookingPage{
    }
 
    async verifyDetails(startLocation, destination , ticketClass){
-        if (startLocation){
-          this.validateDetails(0,this.forLocation,startLocation)
-        }
-        if (destination){
-            this.validateDetails(1,this.forLocation,destination)
-        }
-        if (ticketClass){
-            this.validateDetails(3,this.checkTicketClass,ticketClass)
-        }
+      this.validateDetails(0,this.forLocation,startLocation)
+      this.validateDetails(1,this.forLocation,destination)
+      this.validateDetails(3,this.checkTicketClass,ticketClass)
     }
 
     async searchFlight() {
@@ -93,6 +88,11 @@ class FlightBookingPage{
         
         const loader = await this.loader
         await  expect(loader).toBeVisible()
+    }
+
+    async validateTodayDateSelected(todayDate) {    
+        const contentElement = await this.page.locator(`//*[normalize-space(text()) = "${todayDate}"]`).textContent()
+        expect(contentElement).toContain(todayDate)     
     }
 }
 

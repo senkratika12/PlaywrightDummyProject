@@ -3,6 +3,7 @@ const flightBookingPage = require('../pages/FlightBookingPage/FlightBookingPage'
 const loginPage = require('../pages/LoginPage/LoginPage')
 const { testData } = require('./testData')
 const basicFunction = require('../pages/CommonFunction/BasicFunction')
+const calenderUtilities = require('../utilities/calenderUtility')
 const { verifyData } = require('./verifyData')
 
 test('Searching Flight ', async ({page})=>{
@@ -14,6 +15,8 @@ test('Searching Flight ', async ({page})=>{
 
     const flightbookingpage = new flightBookingPage(page)
     const loginpage = new loginPage(page)
+    const calenderutilities = new calenderUtilities()
+    const todayDate = await calenderutilities.TodayDate()
     await loginpage.closeLoginDialogue()
     await flightbookingpage.verifyUserOnHomePage()
 
@@ -22,5 +25,6 @@ test('Searching Flight ', async ({page})=>{
     await flightbookingpage.selectTicketType(testData.ticketClass)
 
     await flightbookingpage.verifyDetails(testData.startLocation,testData.destinationLocation,testData.ticketClass)
+    await flightbookingpage.validateTodayDateSelected(todayDate)
     await flightbookingpage.searchFlight()
 })
