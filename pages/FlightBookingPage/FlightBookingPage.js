@@ -28,6 +28,11 @@ class FlightBookingPage{
 
         this.loader = this.page.locator('//*[@class="loaderWrapper appendBottom20"]')
         this.loadingText = this.page.locator('//p[@class="heading appendBottom12"]')
+
+        this.specialOffer = page.locator('//*[@class="sc-12foipm-86 iXowoZ"]')
+
+        this.passanger = page.locator('//*[@class="sc-12foipm-52 jueHCN"]')
+        this.increaseNumber = page.locator('//div[@class="sc-12foipm-50 gaoQkJ"]//span[@class="sc-12foipm-51 kZvHQU"][2]')
     }
 
     async verifyUserOnHomePage(){
@@ -48,9 +53,11 @@ class FlightBookingPage{
         await this.selectFromList.click()
    }
 
+   async openTicketInfo(){
+    await this.ticketClass.click()
+   }
+
    async selectTicketType(className){
-        await this.ticketClass.click()
-        
         const ticketClassName = await className.toLowerCase()
         if(ticketClassName === 'economy'){
             await this.economyClass.click()
@@ -64,6 +71,7 @@ class FlightBookingPage{
         if(ticketClassName === 'first class'){
             await this.firstClass.click()
         }
+        await this.page.pause()
         await this.confirmBtn.click()
    }
 
@@ -93,6 +101,66 @@ class FlightBookingPage{
     async validateTodayDateSelected(todayDate) {    
         const contentElement = await this.page.locator(`//*[normalize-space(text()) = "${todayDate}"]`).textContent()
         expect(contentElement).toContain(todayDate)     
+    }
+
+    async selectingOffer(index){
+       await this.specialOffer.nth(index).click()
+    }
+
+    // 0 - Student 1 - senior citizen 2- armed forces 3 - doctor&Nurses
+    async selectSpecialOffer(offerFor){
+        if(offerFor=='Student'){
+            await this.specialOffer.nth(0).click()
+        }
+        if(offerFor=='Senior Citizen'){
+            await this.specialOffer.nth(1).click()
+        }
+        if(offerFor=='Armed Forces'){
+            await this.specialOffer.nth(2).click()
+        }
+        if(offerFor=='Doctor'){
+            await this.specialOffer.nth(3).click()
+        }
+    }
+
+    async verifyAvailableClassForSpecialOffer(offer){
+        if(offer == "Student" || offer == "Senior Citizen"){
+            await this.economyClass.isVisible()
+            await expect(this.premiumEconomyClass).toHaveCount(0)
+            await expect(this.buisness).toHaveCount(0)
+            await expect(this.firstClass).toHaveCount(0)            
+        }
+
+        if(offer == 'Doctor' || offer== 'Armed Forces'){
+            await this.economyClass.isVisible()
+            await this.premiumEconomyClass.isVisible()
+            await expect(this.buisness).toHaveCount(0)
+            await expect(this.firstClass).toHaveCount(0)
+        }
+    }
+
+    async increasePassengerNumber(index,totalNumber){
+        const currenNumber = await this.passanger.nth(index).textContent()
+        const increasePassenger = await this.increaseNumber
+        const check = totalNumber - parseInt(currenNumber)
+        if(parseInt(check)>0){
+            for(let i = 0; i<parseInt(check) ; i++){
+                await increasePassenger.nth(index).click()
+            }
+        }
+
+    }
+
+    async selectPassenger(passanger,totalNumber){
+        if(passanger === 'Adults'){
+           await this.increasePassengerNumber(0,totalNumber)
+        }
+        if(passanger === 'Children'){
+            await this.increasePassengerNumber(1,totalNumber)
+        }
+         if(passanger === 'Infant'){
+           await this.increasePassengerNumber(2,totalNumber)
+        }
     }
 }
 

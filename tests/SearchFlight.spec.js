@@ -22,6 +22,11 @@ test('Searching Flight ', async ({page})=>{
 
     await flightbookingpage.enterCityFromBookFlight(testData.startLocation)
     await flightbookingpage.enterCityToBookFlight(testData.destinationLocation)
+    await flightbookingpage.openTicketInfo()
+    await flightbookingpage.selectPassenger('Adults',2)
+    await flightbookingpage.selectPassenger('Children',1)
+    await flightbookingpage.selectPassenger('Infant',1)
+
     await flightbookingpage.selectTicketType(testData.ticketClass)
 
     await flightbookingpage.verifyDetails(testData.startLocation,testData.destinationLocation,testData.ticketClass)
