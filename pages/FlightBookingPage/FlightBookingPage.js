@@ -33,6 +33,8 @@ class FlightBookingPage{
 
         this.passanger = page.locator('//*[@class="sc-12foipm-52 jueHCN"]')
         this.increaseNumber = page.locator('//div[@class="sc-12foipm-50 gaoQkJ"]//span[@class="sc-12foipm-51 kZvHQU"][2]')
+
+        this.forex = page.locator('//*[text()="Forex"]')
     }
 
     async verifyUserOnHomePage(){
@@ -161,6 +163,11 @@ class FlightBookingPage{
          if(passanger === 'Infant'){
            await this.increasePassengerNumber(2,totalNumber)
         }
+    }
+
+    async openForexPage(){
+        await this.page.pause()
+        await this.forex.click()
     }
 }
 
